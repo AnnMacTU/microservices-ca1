@@ -6,7 +6,7 @@ const app = express();
 app.use(cors());
 
 const port = 3000;
-const url = 'mongodb://mongodb:27017';
+const url = process.env.MONGO_URL || 'mongodb://mongodb:27017';
 const client = new MongoClient(url);
 
 let db;
