@@ -28,4 +28,4 @@ spec:
     app: pricing
   ports:
     - port: 8082
-      targetPort: 80
+      targetPort: 8082
