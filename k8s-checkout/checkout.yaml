@@ -24,7 +24,10 @@ spec:
             - name: INVENTORY_URL
               value: "http://inventory:8083"
             - name: DATABASE_URL
-              value: "postgresql://appuser:apppass@postgres:5432/shopdb"
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secret
+                  key: DATABASE_URL
 ---
 apiVersion: v1
 kind: Service
@@ -34,5 +37,6 @@ spec:
   selector:
     app: checkout
   ports:
-    - port: 8081
+    - protocol: TCP
+      port: 8081
       targetPort: 8081
