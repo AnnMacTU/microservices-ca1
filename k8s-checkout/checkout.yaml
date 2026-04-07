@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: checkout
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: checkout
+  template:
+    metadata:
+      labels:
+        app: checkout
+    spec:
+      containers:
+        - name: checkout
+          image: checkout:latest
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 8081
+          env:
+            - name: PRICING_URL
+              value: "http://pricing:8082"
+            - name: INVENTORY_URL
+              value: "http://inventory:8083"
+            - name: DATABASE_URL
+              value: "postgresql://appuser:apppass@postgres:5432/shopdb"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: checkout
+spec:
+  selector:
+    app: checkout
+  ports:
+    - port: 8081
+      targetPort: 8081
